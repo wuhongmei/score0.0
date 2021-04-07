@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">我的软件</string>
+    <string name="action_settings">设置</string>
+    <string name="first_fragment_label">第一个碎片？</string>
+    <string name="second_fragment_label">第二个。。</string>
+    <string name="next">下一页</string>
+    <string name="previous">历史</string>
+    <string name="hello_first_fragment">？</string>
+    <string name="setView">温度</string>
+    <string name="btn">转换为华氏度</string>
+    <string name="teamname">队名</string>
+    <string name="score1">+1分</string>
+    <string name="score2">+2分</string>
+    <string name="score3">+3分</string>
+    <string name="zero">置零</string>
+    <string name="hello">你好</string>
+</resources>

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MyApp1</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+
+    <string name="setView">Temperature</string>
+    <string name="btn">Change</string>
+    <string name="hello">hello</string>
+    <string name="teamname">team A</string>
+    <string name="score1">+1 POINT</string>
+    <string name="score2">+2 POINTS</string>
+    <string name="score3">+3 POINTS</string>
+    <string name="zero">reset</string>
+
+</resources>
