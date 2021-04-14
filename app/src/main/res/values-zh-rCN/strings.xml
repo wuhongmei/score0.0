@@ -15,4 +15,12 @@
     <string name="score3">+3分</string>
     <string name="zero">置零</string>
     <string name="hello">你好</string>
+    <string name="input_tip">输入金额</string>
+    <string name="hello_label">你好</string>
+    <string name="btn_dollar_label">美元</string>
+    <string name="btn_euro_label">欧元</string>
+    <string name="btn_won_label">韩元</string>
+    <string name="score_label">A队分数</string>
+    <string name="scoreb_label">B队分数</string>
+    <string name="reset_btn">重置</string>
 </resources>
