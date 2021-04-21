@@ -9,7 +9,7 @@
     <string name="hello_first_fragment">？</string>
     <string name="setView">温度</string>
     <string name="btn">转换为华氏度</string>
-    <string name="teamname">队名</string>
+    <string name="teamname">A队</string>
     <string name="score1">+1分</string>
     <string name="score2">+2分</string>
     <string name="score3">+3分</string>
@@ -23,4 +23,5 @@
     <string name="score_label">A队分数</string>
     <string name="scoreb_label">B队分数</string>
     <string name="reset_btn">重置</string>
+    <string name="Home">首页</string>
 </resources>

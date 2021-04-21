@@ -25,5 +25,6 @@
     <string name="score_label">0</string>
     <string name="scoreb_label">0</string>
     <string name="reset_btn">reset</string>
+    <string name="Home">Home</string>
 
 </resources>

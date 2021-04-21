@@ -16,9 +16,9 @@ public class ScoreActivity extends AppCompatActivity {
         setContentView(R.layout.activity_score);
     }
     private void show(){
-        TextView out = findViewById(R.id.scorea);
+        TextView out = findViewById(R.id.score1);
         out.setText(String.valueOf(score1));
-        ((TextView)findViewById(R.id.scoreb)).setText(String.valueOf(score2));
+        ((TextView)findViewById(R.id.score2)).setText(String.valueOf(score2));
     }
 
     public void btn3(View v){
@@ -38,16 +38,23 @@ public class ScoreActivity extends AppCompatActivity {
 
     public void reset(View v){
         score1 = 0;
+        score2 = 0;
         show();
     }
 
-    public void  btnb(View btn){
+
+    public void btnb(View btn){
         if(btn.getId()==R.id.btnb3){
             score2 += 3;
+            show();
         }
         else if(btn.getId()==R.id.btnb2){
             score2 += 2;
+            show();
         }
-        else score2++;
+        else {
+            score2++;
+            show();
+        }
     }
 }

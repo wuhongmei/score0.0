@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <!-- xmlns:tools="http://schemas.android.com/tools" -->
 
     <TextView
         android:id="@+id/textView"
@@ -20,23 +21,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.044" />
 
+    <!-- android:text="@string/input_tip" -->
+
     <EditText
         android:id="@+id/ipt"
         android:layout_width="317dp"
         android:layout_height="75dp"
-        android:text="@string/ipt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.391"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.143" />
+        app:layout_constraintVertical_bias="0.143"
+        android:autofillHints="@string/input_tip"
+        android:inputType="number"
+        tools:ignore="LabelFor" />
 
     <Button
         android:id="@+id/btn"
         android:layout_width="130dp"
         android:layout_height="60dp"
-        android:text="首页"
+        android:text="@string/Home"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.448"
