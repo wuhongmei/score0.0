@@ -7,15 +7,14 @@
     <string name="next">下一页</string>
     <string name="previous">历史</string>
     <string name="hello_first_fragment">？</string>
-    <string name="setView">温度</string>
     <string name="btn">转换为华氏度</string>
-    <string name="teamname">A队</string>
+    <string name="teamname1">A队</string>
     <string name="score1">+1分</string>
     <string name="score2">+2分</string>
     <string name="score3">+3分</string>
     <string name="zero">置零</string>
     <string name="hello">你好</string>
-    <string name="input_tip">输入金额</string>
+    <string name="input_tip">请输入</string>
     <string name="hello_label">你好</string>
     <string name="btn_dollar_label">美元</string>
     <string name="btn_euro_label">欧元</string>
@@ -24,4 +23,8 @@
     <string name="scoreb_label">B队分数</string>
     <string name="reset_btn">重置</string>
     <string name="Home">首页</string>
+    <string name="teamname2">B队</string>
+    <string name="exchange">转换</string>
+    <string name="Temperature">温度</string>
+    <string name="yes">确定</string>
 </resources>

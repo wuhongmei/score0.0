@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".huilv">
-<!--     xmlns:app="http://schemas.android.com/apk/res-auto"  -->
+    tools:context=".RateActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,5 +57,15 @@
             android:layout_marginRight="20dp"
             android:text="@string/btn_won_label"
             android:onClick="exchange" />
+
+        <Button
+            android:id="@+id/btn_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/exchange"
+            android:onClick="openConfig" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
