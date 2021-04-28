@@ -1,27 +1,74 @@
 package com.example.myapp1;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
+//import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class RateActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+
+public class RateActivity extends AppCompatActivity implements Runnable {
 
     private static final String TAG = "RateActivity";
-    float dollarRate = 0.15f;
-    float euroRate = 0.12f;
-    float wonRate = 170.21f;
+    float dollarRate = 0.0f;
+    float euroRate = 0.0f;
+    float wonRate = 0.0f;
+    Handler handler;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {  //创建时的操作
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rate);
+
+        //读取保存的数据（SharedPreferences对象），保存到myrate文件
+        SharedPreferences sharedPreferences = getSharedPreferences("myrate", Activity.MODE_PRIVATE); //保存数据的文件
+        dollarRate = sharedPreferences.getFloat("dollar_rate", 0.15f);
+        euroRate = sharedPreferences.getFloat("euro_rate", 0.12f);
+        wonRate = sharedPreferences.getFloat("won_rate", 170.21f);
+
+        Log.i(TAG, "onCreate: dollarRate=" + dollarRate);
+        Log.i(TAG, "onCreate: euroRate=" + euroRate);
+        Log.i(TAG, "onCreate: wonRate=" + wonRate);
+
+        //开启子线程
+        Thread t = new Thread(this);
+        t.start();
+
+        handler = new Handler(Looper.myLooper()) {
+            //当前管理循环器
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                //收到消息的处理
+                Log.i(TAG, "handleMessage: 收到消息" + msg.what);
+                if(msg.what==7){
+                    String str = (String)msg.obj;
+                    Log.i(TAG, "handleMessage: get str=" + str);
+                    TextView result = findViewById(R.id.result);
+                    result.setText(str);
+                }
+                super.handleMessage(msg);
+            }
+        };
     }
 
     public void exchange(View btn){
@@ -49,7 +96,8 @@ public class RateActivity extends AppCompatActivity {
         }
     }
 
-    public void openConfig(View btn) { //作为事件处理的方法，必须是public
+    public void openConfig(View btn) {
+        //作为事件处理的方法，必须是public
         //打开另一个Activity页面
         Log.i(TAG, "openConfig: ");  //调试时用
         Intent config = new Intent(this, ConfigActivity.class);
@@ -80,5 +128,54 @@ public class RateActivity extends AppCompatActivity {
             Log.i(TAG, "onActivityResult: wonRate" + wonRate);
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu){}
+
+    private String inputStream2String(InputStream inputStream) throws IOException{
+            final int bufferSize = 1024;
+            final char[] buffer = new char[bufferSize];
+            final StringBuilder out = new StringBuilder();
+            Reader in = new InputStreamReader(inputStream, "gb2312"); //根据网站变化
+            while(true){
+                int rsz = in.read(buffer, 0, buffer.length);
+                if(rsz < 0) break;
+                out.append(buffer, 0, rsz);
+            }
+            return out.toString();
+        }
+
+    public void run(){
+        Log.i(TAG, "run: ");
+
+        //耗时3秒的工作
+        try {
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //获取网络上的汇率数据
+        URL url;
+        try{
+            url = new URL("http://www.usd-cny.com/bankofchina.htm");
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+            InputStream in = http.getInputStream();
+
+            String html = inputStream2String(in);
+            Log.i(TAG, "run: html=" + html);
+        } catch(MalformedURLException e){
+            e.printStackTrace();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+
+        //返回消息给主线程
+        Message msg = handler.obtainMessage();
+        msg.what = 7;
+        msg.obj = "Hello from handler";
+        handler.sendMessage(msg);
     }
 }

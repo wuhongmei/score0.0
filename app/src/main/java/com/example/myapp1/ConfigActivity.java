@@ -2,7 +2,9 @@ package com.example.myapp1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +51,14 @@ public class ConfigActivity extends AppCompatActivity {
         Log.i(TAG, "save: newdollar=" + newdollar);
         Log.i(TAG, "save: neweuro=" + neweuro);
         Log.i(TAG, "save: newwon=" + newwon);
+
+        //保存到文件：data文件下data文件下（AndroidManifest.xml中包名）com.example.myapp1下shared_prefs下的myrate.xml文件中
+        SharedPreferences sp = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putFloat("dollar_rate", newdollar);
+        editor.putFloat("euro_rate", neweuro);
+        editor.putFloat("won_rate", newwon);
+        editor.apply();
 
         //返回数据到调用页面
         Intent ret = getIntent();

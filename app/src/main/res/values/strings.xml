@@ -27,5 +27,6 @@
     <string name="teamname2">teamB</string>
     <string name="exchange">exchange</string>
     <string name="yes">yes</string>
+    <string name="config_btn">config</string>
 
 </resources>

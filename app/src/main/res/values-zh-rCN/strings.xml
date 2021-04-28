@@ -27,4 +27,5 @@
     <string name="exchange">转换</string>
     <string name="Temperature">温度</string>
     <string name="yes">确定</string>
+    <string name="config_btn">修改</string>
 </resources>
