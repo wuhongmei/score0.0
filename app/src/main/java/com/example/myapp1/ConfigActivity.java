@@ -52,7 +52,7 @@ public class ConfigActivity extends AppCompatActivity {
         Log.i(TAG, "save: neweuro=" + neweuro);
         Log.i(TAG, "save: newwon=" + newwon);
 
-        //将数据保存到文件：data/data/（AndroidManifest.xml中包名）com.example.myapp1/shared_prefs/myrate.xml
+        //数据保存到文件：data/data/（AndroidManifest.xml中的包名）com.example.myapp1/shared_prefs/myrate.xml
         SharedPreferences sp = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putFloat("dollar_rate", newdollar);

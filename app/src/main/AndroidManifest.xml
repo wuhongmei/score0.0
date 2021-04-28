@@ -4,7 +4,7 @@
     package="com.example.myapp1">
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!--添加网络访问权限-->
+    <!--添加网络访问的权限-->
 
     <application
         android:allowBackup="true"
