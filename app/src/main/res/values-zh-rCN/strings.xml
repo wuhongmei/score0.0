@@ -28,4 +28,5 @@
     <string name="Temperature">温度</string>
     <string name="yes">确定</string>
     <string name="config_btn">修改</string>
+    <string name="Item">菜单项</string>
 </resources>

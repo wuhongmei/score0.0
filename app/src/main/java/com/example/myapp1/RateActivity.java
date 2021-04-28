@@ -10,6 +10,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 //import android.view.Menu;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -100,6 +102,10 @@ public class RateActivity extends AppCompatActivity implements Runnable {
         //作为事件处理的方法，必须是public
         //打开另一个Activity页面
         Log.i(TAG, "openConfig: ");  //调试时用
+        open();
+    }
+
+    private void open() {
         Intent config = new Intent(this, ConfigActivity.class);
         //参数传递
         config.putExtra("dollar_key", dollarRate);
@@ -130,8 +136,20 @@ public class RateActivity extends AppCompatActivity implements Runnable {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu){}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        //启用菜单项
+        getMenuInflater().inflate(R.menu.rate,menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==R.id.menu_set){
+            //事件处理代码
+            open();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private String inputStream2String(InputStream inputStream) throws IOException{
             final int bufferSize = 1024;

@@ -28,5 +28,6 @@
     <string name="exchange">exchange</string>
     <string name="yes">yes</string>
     <string name="config_btn">config</string>
+    <string name="Item">Item</string>
 
 </resources>
