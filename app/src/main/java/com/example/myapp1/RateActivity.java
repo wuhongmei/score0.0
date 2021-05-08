@@ -19,13 +19,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+//import java.net.HttpURLConnection;
+//import java.net.MalformedURLException;
+//import java.net.URL;
 
 
 public class RateActivity extends AppCompatActivity implements Runnable {
@@ -47,29 +55,61 @@ public class RateActivity extends AppCompatActivity implements Runnable {
         euroRate = sharedPreferences.getFloat("euro_rate", 0.12f);
         wonRate = sharedPreferences.getFloat("won_rate", 170.21f);
 
+
         Log.i(TAG, "onCreate: dollarRate=" + dollarRate);
         Log.i(TAG, "onCreate: euroRate=" + euroRate);
         Log.i(TAG, "onCreate: wonRate=" + wonRate);
 
-        // 创建并开启子线程
-        Thread t = new Thread(this);
-        t.start();
+        Date d2 = new Date(); //当前时间
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String d2_str = sdf.format(d2);
+        Calendar c = Calendar.getInstance();
+        c.setTime(d2);
+        c.add(Calendar.DAY_OF_MONTH, -1);
+        Date d = c.getTime(); //前一天
+        String d_str = sdf.format(d);
+        String D1 = sharedPreferences.getString("update_date", d_str); //获取上次更新日期，否则返回前一天
 
-        handler = new Handler(Looper.myLooper()) {
-            // 设置当前管理循环器，向主线程传递消息
-            @Override
-            public void handleMessage(@NonNull Message msg) {
-                // 收到消息后的处理
-                Log.i(TAG, "handleMessage: 收到消息" + msg.what);
-                if(msg.what==7){  // 确认对象
-                    String str = (String)msg.obj;
-                    Log.i(TAG, "handleMessage: get str=" + str);
-                    TextView result = findViewById(R.id.result);
-                    result.setText(str);
+        if(!D1.equals(d2_str)) { //实现每天更新一次
+            // 创建并开启子线程
+            Thread t = new Thread(this);
+            t.start();
+
+            handler = new Handler(Looper.myLooper()) {
+                // 设置当前管理循环器，向主线程传递消息
+                @Override
+                public void handleMessage(@NonNull Message msg) {
+                    // 收到消息后的处理
+                    Log.i(TAG, "handleMessage: 收到消息" + msg.what);
+                    if (msg.what == 7) {  // 确认对象
+                        //                    String str = (String)msg.obj;
+                        //                    Log.i(TAG, "handleMessage: get str=" + str);
+                        //                    TextView result = findViewById(R.id.result);
+                        //                    result.setText(str);
+                        Bundle bdl = (Bundle) msg.obj;
+                        dollarRate = bdl.getFloat("dollar-rate");
+                        euroRate = bdl.getFloat("euro-rate");
+                        wonRate = bdl.getFloat("won-rate");
+                        Log.i(TAG, "handleMessage: dollar=" + dollarRate);
+                        Log.i(TAG, "handleMessage: euro=" + euroRate);
+                        Log.i(TAG, "handleMessage: won=" + wonRate);
+                        Toast.makeText(RateActivity.this, "汇率已更新", Toast.LENGTH_SHORT).show();
+                    }
+                    super.handleMessage(msg);
                 }
-                super.handleMessage(msg);
-            }
-        };
+            };
+
+            //保存更新的日期和汇率
+            Date d1 = new Date(); //当前时间
+            String d1_str = sdf.format(d1);
+            SharedPreferences sp = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putFloat("dollar_rate", dollarRate);
+            editor.putFloat("euro_rate", euroRate);
+            editor.putFloat("won_rate", wonRate);
+            editor.putString("update_date", d1_str); //保存更新的时间
+            editor.apply();
+        }
     }
 
     public void exchange(View btn){
@@ -166,34 +206,96 @@ public class RateActivity extends AppCompatActivity implements Runnable {
 
     public void run(){
         // 改写run方法，实现子线程操作
-        Log.i(TAG, "run: ");
-        // 耗时3秒的工作
-        try {
-            Thread.sleep(3000);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        Log.i(TAG, "run: ");
+//        // 耗时3秒的工作
+//        try {
+//            Thread.sleep(3000);
+//        }
+//        catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         // 获取网络中的数据
-        URL url;
-        try{
-            url = new URL("http://www.usd-cny.com/bankofchina.htm");
-            HttpURLConnection http = (HttpURLConnection)url.openConnection();
-            InputStream in = http.getInputStream();
+//        URL url;
+//        try{
+//            url = new URL("http://www.usd-cny.com/bankofchina.htm");
+//            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+//            InputStream in = http.getInputStream();
+//
+//            String html = inputStream2String(in);
+//            Log.i(TAG, "run: html=" + html);
+//        } catch(MalformedURLException e){
+//            e.printStackTrace();
+//        } catch(IOException e){
+//            e.printStackTrace();
+//        }
 
-            String html = inputStream2String(in);
-            Log.i(TAG, "run: html=" + html);
-        } catch(MalformedURLException e){
-            e.printStackTrace();
-        } catch(IOException e){
+        //用于保存获取的汇率
+        Bundle bundle = new Bundle();
+        try{
+            Document doc = Jsoup.connect("http://www.usd-cny.com/bankofchina.htm").get();
+            Log.i(TAG, "run:" + doc.title());
+            Element tables = doc.getElementsByTag("table").first(); // 找第一个表（汇率表）
+
+            //按表格取
+//            Elements tds = tables.getElementsByTag("td");
+//            for(int i=0;i<tds.size();i+=6) {  // 第一列是币种，第六列是汇率，共六列
+//                Element td1 = tds.get(i);
+//                Element td2 = tds.get(i+5);
+//                Log.i(TAG, "run: " + td1.text() + "=>" + td2.text());
+//            }
+
+//            for(Element td : tds){
+//                Log.i(TAG, "run: td=" + td);
+//            }
+//            Elements cls = doc.getElementsByClass("bz"); //该网页每一行第一列的class为bz
+//            for(Element c : cls){
+//                Log.i(TAG, "run: c=" + c);
+//                Log.i(TAG, "run: c.html=" + c.html());
+//                Log.i(TAG, "run: c.text=" + c.text());
+//            }
+
+            //按行取
+            Elements trs = tables.getElementsByTag("tr");
+            for(Element tr: trs){
+                Elements rtds = tr.getElementsByTag("td");
+                if(rtds.size() >=5) { //第一行为表头
+                    String str = rtds.get(0).text();    //币种
+                    String val = rtds.get(5).text();  //汇率
+                    float v = 100f / Float.parseFloat(val);
+                    Log.i(TAG, "run:" + str + "->" + val);
+                    if("美元".equals(str)){
+                        bundle.putFloat("dollar-rate", v);
+                        Log.i(TAG, "run:美元->" + val);
+                    }
+                    else if("欧元".equals(str)){
+                        bundle.putFloat("euro-rate", v);
+                        Log.i(TAG, "run:欧元->" + val);
+                    }
+                    else if("韩元".equals(str)){
+                        bundle.putFloat("won-rate", v);
+                        Log.i(TAG, "run:韩元->" + val);
+                    }
+                }
+            }
+
+            //通过select选取（输出集合）
+//            Element ele = doc.select("body > section > div > div > article > table > tbody > tr:nth-child(8) > td:nth-child(6)").first();
+//            Log.i(TAG, "run: 欧元=" + ele.text());
+//            Element ele2 = doc.select("table > tbody > tr:nth-child(14) > td:nth-child(6)").first();
+//            Log.i(TAG, "run: 韩元=" + ele2.text());
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
+
+        //bundle中保存获取的汇率
 
         // 将消息返回给主线程
         Message msg = handler.obtainMessage();
         msg.what = 7;
-        msg.obj = "Hello from handler";
+        msg.obj = bundle;
+        //msg.obj = "Hello from handler";
         handler.sendMessage(msg);
     }
 }
