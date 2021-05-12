@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.jsoup.Jsoup;
@@ -28,9 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+//import java.util.Date;
 //import java.net.HttpURLConnection;
 //import java.net.MalformedURLException;
 //import java.net.URL;
@@ -42,8 +43,10 @@ public class RateActivity extends AppCompatActivity implements Runnable {
     float dollarRate = 0.0f;
     float euroRate = 0.0f;
     float wonRate = 0.0f;
+    String updateDate = "";
     Handler handler; //线程间消息同步
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {  //创建时的操作
         super.onCreate(savedInstanceState);
@@ -54,62 +57,57 @@ public class RateActivity extends AppCompatActivity implements Runnable {
         dollarRate = sharedPreferences.getFloat("dollar_rate", 0.15f);
         euroRate = sharedPreferences.getFloat("euro_rate", 0.12f);
         wonRate = sharedPreferences.getFloat("won_rate", 170.21f);
-
+        updateDate = sharedPreferences.getString("update_date", "");
 
         Log.i(TAG, "onCreate: dollarRate=" + dollarRate);
         Log.i(TAG, "onCreate: euroRate=" + euroRate);
         Log.i(TAG, "onCreate: wonRate=" + wonRate);
+        Log.i(TAG, "onCreate: updateDate" + updateDate);
 
-        Date d2 = new Date(); //当前时间
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String d2_str = sdf.format(d2);
-        Calendar c = Calendar.getInstance();
-        c.setTime(d2);
-        c.add(Calendar.DAY_OF_MONTH, -1);
-        Date d = c.getTime(); //前一天
-        String d_str = sdf.format(d);
-        String D1 = sharedPreferences.getString("update_date", d_str); //获取上次更新日期，否则返回前一天
-
-        if(!D1.equals(d2_str)) { //实现每天更新一次
+        LocalDate today = LocalDate.now(); //当前时间
+        if(!today.toString().equals(updateDate)) { //实现每天更新一次
+            //从网络中更新
             // 创建并开启子线程
             Thread t = new Thread(this);
             t.start();
-
-            handler = new Handler(Looper.myLooper()) {
-                // 设置当前管理循环器，向主线程传递消息
-                @Override
-                public void handleMessage(@NonNull Message msg) {
-                    // 收到消息后的处理
-                    Log.i(TAG, "handleMessage: 收到消息" + msg.what);
-                    if (msg.what == 7) {  // 确认对象
-                        //                    String str = (String)msg.obj;
-                        //                    Log.i(TAG, "handleMessage: get str=" + str);
-                        //                    TextView result = findViewById(R.id.result);
-                        //                    result.setText(str);
-                        Bundle bdl = (Bundle) msg.obj;
-                        dollarRate = bdl.getFloat("dollar-rate");
-                        euroRate = bdl.getFloat("euro-rate");
-                        wonRate = bdl.getFloat("won-rate");
-                        Log.i(TAG, "handleMessage: dollar=" + dollarRate);
-                        Log.i(TAG, "handleMessage: euro=" + euroRate);
-                        Log.i(TAG, "handleMessage: won=" + wonRate);
-                        Toast.makeText(RateActivity.this, "汇率已更新", Toast.LENGTH_SHORT).show();
-                    }
-                    super.handleMessage(msg);
-                }
-            };
-
-            //保存更新的日期和汇率
-            Date d1 = new Date(); //当前时间
-            String d1_str = sdf.format(d1);
-            SharedPreferences sp = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sp.edit();
-            editor.putFloat("dollar_rate", dollarRate);
-            editor.putFloat("euro_rate", euroRate);
-            editor.putFloat("won_rate", wonRate);
-            editor.putString("update_date", d1_str); //保存更新的时间
-            editor.apply();
         }
+        else{
+            Log.i(TAG, "onCreate: 日期相等，不更新");
+        }
+
+        handler = new Handler(Looper.myLooper()) {
+            // 设置当前管理循环器，向主线程传递消息
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                // 收到消息后的处理
+                Log.i(TAG, "handleMessage: 收到消息" + msg.what);
+                if (msg.what == 7) {  // 确认对象
+                    //                    String str = (String)msg.obj;
+                    //                    Log.i(TAG, "handleMessage: get str=" + str);
+                    //                    TextView result = findViewById(R.id.result);
+                    //                    result.setText(str);
+                    //更新
+                    Bundle bdl = (Bundle) msg.obj;
+                    dollarRate = bdl.getFloat("dollar-rate");
+                    euroRate = bdl.getFloat("euro-rate");
+                    wonRate = bdl.getFloat("won-rate");
+                    Log.i(TAG, "handleMessage: dollar=" + dollarRate);
+                    Log.i(TAG, "handleMessage: euro=" + euroRate);
+                    Log.i(TAG, "handleMessage: won=" + wonRate);
+                    Toast.makeText(RateActivity.this, "汇率已更新", Toast.LENGTH_SHORT).show();
+
+                    //保存更新的日期和汇率到SharedPreferences
+                    SharedPreferences sp = getSharedPreferences("myrate", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putFloat("dollar_rate", dollarRate);
+                    editor.putFloat("euro_rate", euroRate);
+                    editor.putFloat("won_rate", wonRate);
+                    editor.putString("update_date", today.toString()); //保存更新的时间 2021-2-3
+                    editor.apply();
+                }
+                super.handleMessage(msg);
+            }
+        };
     }
 
     public void exchange(View btn){
@@ -206,14 +204,14 @@ public class RateActivity extends AppCompatActivity implements Runnable {
 
     public void run(){
         // 改写run方法，实现子线程操作
-//        Log.i(TAG, "run: ");
-//        // 耗时3秒的工作
-//        try {
-//            Thread.sleep(3000);
-//        }
-//        catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        Log.i(TAG, "run: ");
+        // 耗时3秒的工作
+        try {
+            Thread.sleep(3000);
+        }
+        catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         // 获取网络中的数据
 //        URL url;
@@ -297,5 +295,9 @@ public class RateActivity extends AppCompatActivity implements Runnable {
         msg.obj = bundle;
         //msg.obj = "Hello from handler";
         handler.sendMessage(msg);
+    }
+
+    public void setHandler(Handler h){ //向另一文件传递Handler
+        this.handler = h;
     }
 }
