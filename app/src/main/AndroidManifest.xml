@@ -15,21 +15,33 @@
         android:theme="@style/Theme.MyApp1"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".rate_list_Activity"></activity>
-        <activity android:name=".FirstListActivity" >
+        <activity android:name=".ExchangeRateActivity" />
+        <activity android:name=".MyList3Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".rate_list_Activity" />
+        <activity android:name=".FirstListActivity">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity android:name=".ConfigActivity" />
         <activity android:name=".RateActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity android:name=".ScoreActivity">
 
