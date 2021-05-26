@@ -112,7 +112,7 @@ public class RateActivity extends AppCompatActivity implements Runnable {
 
     public void exchange(View btn){
         //获取输入内容
-        EditText rmb = findViewById(R.id.input_tip);
+        EditText rmb = findViewById(R.id.calc_input);
         String str = rmb.getText().toString();
         TextView result = findViewById(R.id.result);
         //判断用户输入是否为空

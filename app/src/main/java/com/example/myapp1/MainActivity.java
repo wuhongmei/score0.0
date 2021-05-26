@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         // 显示信息
         if(inpStr.length() > 0) {
             float t = ((Float.parseFloat(inpStr) * 9) / 5) + 32;
-            TextView show = findViewById(R.id.input_tip);
+            TextView show = findViewById(R.id.calc_input);
             show.setText(t + "F");
         }
     }
