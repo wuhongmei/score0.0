@@ -24,13 +24,19 @@
         </activity>
         <activity android:name=".ExchangeRateActivity" android:theme="@style/Theme.AppCompat.Dialog"/>
         <activity android:name=".MyList3Activity">
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+        </activity>
+        <activity android:name=".RateListActivity" android:label="汇率计算">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".rate_list_Activity" />
         <activity android:name=".FirstListActivity">
 
             <!-- <intent-filter> -->

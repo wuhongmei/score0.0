@@ -12,8 +12,8 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
-public class RateAdapter extends ArrayAdapter {
-    public RateAdapter(@NonNull Context context, int resource, @NonNull ArrayList<Rate> list) {
+public class RateItemAdapter extends ArrayAdapter {
+    public RateItemAdapter(@NonNull Context context, int resource, @NonNull ArrayList<RateItem> list) {
         super(context, resource, list);
     }
 
@@ -24,11 +24,12 @@ public class RateAdapter extends ArrayAdapter {
         if(itemView == null){
             itemView = LayoutInflater.from(getContext()).inflate(R.layout.list_item,parent,false);
         }
-        Rate rate = (Rate) getItem(position);
+        RateItem rateItem = (RateItem) getItem(position);
         TextView title = (TextView) itemView.findViewById(R.id.itemTitle);
         TextView detail = (TextView) itemView.findViewById(R.id.itemDetail);
-        title.setText(rate.getCname());
-        detail.setText(rate.getCval());
+        title.setText(rateItem.getCurName());
+        detail.setText(rateItem.getCurRate());
         return itemView;
     }
 }
+
