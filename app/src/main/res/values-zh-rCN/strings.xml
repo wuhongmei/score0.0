@@ -29,4 +29,8 @@
     <string name="yes">确定</string>
     <string name="config_btn">修改</string>
     <string name="Item">菜单项</string>
+    <string name="page1">页面1</string>
+    <string name="hello_fragment">页面切换</string>
+    <string name="page2">页面2</string>
+    <string name="page3">页面3</string>
 </resources>

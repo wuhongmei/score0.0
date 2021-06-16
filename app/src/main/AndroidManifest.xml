@@ -15,22 +15,31 @@
         android:theme="@style/Theme.MyApp1"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity android:name=".FragActivity" />
         <activity android:name=".GridViewActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".ExchangeRateActivity" android:theme="@style/Theme.AppCompat.Dialog"/>
+        <activity
+            android:name=".ExchangeRateActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" />
         <activity android:name=".MyList3Activity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".RateListActivity" android:label="汇率计算">
+        <activity
+            android:name=".RateListActivity"
+            android:label="汇率计算">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

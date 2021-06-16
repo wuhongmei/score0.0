@@ -29,5 +29,9 @@
     <string name="yes">yes</string>
     <string name="config_btn">config</string>
     <string name="Item">Item</string>
+    <string name="hello_fragment">Hello fragment</string>
+    <string name="page1">Page1</string>
+    <string name="page2">Page2</string>
+    <string name="page3">Page3</string>
 
 </resources>
