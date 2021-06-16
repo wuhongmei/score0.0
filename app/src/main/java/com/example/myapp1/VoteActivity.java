@@ -52,6 +52,7 @@ public class VoteActivity extends AppCompatActivity {
             stringBuffer.append("r=").append(URLEncoder.encode(voteStr, "utf-8"));
 
             byte[] data = stringBuffer.toString().getBytes();
+            //服务器的IP地址
             String urlPath = "http://10.64.129.167:8080/vote/GetVote";
             URL url = new URL(urlPath);
 
