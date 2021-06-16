@@ -33,5 +33,26 @@
     <string name="page1">Page1</string>
     <string name="page2">Page2</string>
     <string name="page3">Page3</string>
+    <string name="settings_title">setting</string>
+    <string name="setting">setting</string>
+    <string name="lab_approve">approve</string>
+    <string name="lab_object">object</string>
+    <string name="lab_abstain">abstain</string>
+
+    <!-- 控件标签 -->
+    <string name="set_switch1_label">switch</string>
+    <string name="set_list_label">list</string>
+
+    <!-- 控件ID -->
+    <string name="set_switch1_key">set_switch1</string>
+    <string name="set_checkbox1_key">set_checkbox1</string>
+    <string name="set_list_key">set_list</string>
+    <string name="set_text1_key">set_text1</string>
+    <string name="set_text2_key">set_text2</string>
+    <string name="set_checkbox1_label">checkbox</string>
+    <string name="set_text1_label">text1</string>
+    <string name="set_text2_label">text2</string>
+    <string name="set_group1_label">group1</string>
+    <string name="set_group2_label">group2</string>
 
 </resources>

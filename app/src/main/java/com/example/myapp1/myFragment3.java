@@ -1,5 +1,6 @@
 package com.example.myapp1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,5 +57,11 @@ public class myFragment3 extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_my3, container, false);
+    }
+
+    public void setting(View btn){
+        //打开窗口，进行参数传递
+        Intent setting = new Intent(getContext(), SettingsActivity.class);
+        startActivity(setting);
     }
 }

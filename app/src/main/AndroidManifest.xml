@@ -15,6 +15,24 @@
         android:theme="@style/Theme.MyApp1"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity
+            android:name=".VoteActivity"
+            android:label="投票">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings_title">
+
+            <!-- 会在标题行出现返回父窗口的导航 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.myapp1.FragActivity" />
+        </activity>
         <activity android:name=".FragActivity" />
         <activity android:name=".GridViewActivity">
 
@@ -40,11 +58,11 @@
         <activity
             android:name=".RateListActivity"
             android:label="汇率计算">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".FirstListActivity">
 
